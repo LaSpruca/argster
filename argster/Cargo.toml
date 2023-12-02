@@ -1,0 +1,12 @@
+[package]
+name = "argster"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+argster-macros = { path = "../argster-macros" }
+prettytable = "0.10.0"
+term = "0.7.0"
+thiserror = "*"

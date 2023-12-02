@@ -1,0 +1,3 @@
+[workspace]
+members = ["argster-macros", "argster", "example"]
+resolver = "2"
