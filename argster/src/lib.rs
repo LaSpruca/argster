@@ -24,21 +24,21 @@ pub fn parse_args(iter: impl Iterator<Item = String>) -> HashMap<String, ArgsIte
             (key.to_string(), {
                 let temp = iter
                     .peek()
-                    .filter(|item| !item.starts_with("-"))
+                    .filter(|item| !item.starts_with('-'))
                     .map(ToString::to_string);
                 if temp.is_some() {
                     iter.next();
                 }
                 temp
             })
-        } else if let Some(item) = item.strip_prefix("-") {
+        } else if let Some(item) = item.strip_prefix('-') {
             if item.is_empty() {
                 continue;
             } else if item.len() == 1 {
                 (item.to_string(), {
                     let temp = iter
                         .peek()
-                        .filter(|item| !item.starts_with("-"))
+                        .filter(|item| !item.starts_with('-'))
                         .map(ToString::to_string);
                     if temp.is_some() {
                         iter.next();

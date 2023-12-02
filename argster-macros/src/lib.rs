@@ -19,7 +19,7 @@ pub fn command(_attr: TokenStream, item: TokenStream) -> TokenStream {
             ImplItem::Fn(func) => Some(func),
             _ => None,
         })
-        .map(|function| generate_command(function))
+        .map(generate_command)
         .collect::<Result<Vec<Command>, proc_macro2::TokenStream>>();
 
     if let Err(err) = commands {

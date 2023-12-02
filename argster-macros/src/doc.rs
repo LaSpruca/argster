@@ -28,7 +28,7 @@ impl FromStr for DocData {
         }
 
         if let Some(s) = source.strip_prefix("--") {
-            if let Some((parsed_long, parsed_rest)) = s.split_once(" ") {
+            if let Some((parsed_long, parsed_rest)) = s.split_once(' ') {
                 long = parsed_long.trim().to_string();
                 rest = parsed_rest.trim();
             } else {
@@ -42,12 +42,12 @@ impl FromStr for DocData {
             return Err(quote!(compile_error!(#err);).into());
         }
 
-        if let Some(s) = rest.strip_prefix("-") {
+        if let Some(s) = rest.strip_prefix('-') {
             let s = s.trim();
-            if s.starts_with("-") && s.len() > 1 {
+            if s.starts_with('-') && s.len() > 1 {
                 let err = format!("{long} can only have one long name, please make sure the second arg is in the format -<short name>, where short name is only one charcter");
                 Err(quote!(compile_error!(#err);).into())
-            } else if let Some((short, docs)) = s.split_once(" ") {
+            } else if let Some((short, docs)) = s.split_once(' ') {
                 Ok(DocData {
                     long,
                     short: Some(short.to_string()),
@@ -72,7 +72,7 @@ impl FromStr for DocData {
 
 pub fn parse_docs(attrs: &Vec<Attribute>) -> Result<HashMap<String, DocData>, TokenStream> {
     attrs
-        .into_iter()
+        .iter()
         .filter_map(|item| {
             item.meta
                 .require_name_value()

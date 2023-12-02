@@ -28,7 +28,7 @@ pub fn generate_command(func: &ImplItemFn) -> Result<Command, TokenStream> {
         })
         .map(|(item, ty)| {
             let item_name = item.ident.to_string();
-            let doc_data = doc_data.get(item_name.as_str()).map(|f| f.clone()).unwrap_or_else(|| DocData { long: item_name.to_string(), short: None, docs: "".into() });
+            let doc_data = doc_data.get(item_name.as_str()).cloned().unwrap_or_else(|| DocData { long: item_name.to_string(), short: None, docs: "".into() });
             let short = doc_data.short.as_ref();
 
             if item_name == "input" {

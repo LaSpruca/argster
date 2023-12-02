@@ -3,7 +3,7 @@ use proc_macro::TokenStream;
 use quote::quote;
 use syn::Type;
 
-pub fn generate_help(commands: &Vec<Command>) -> TokenStream {
+pub fn generate_help(commands: &[Command]) -> TokenStream {
     let help_table = commands.iter().map(|Command { name, help, .. }| {
         quote!(Row::new(vec![
             Cell::new(&#name.to_string()).style_spec("bFG"),
@@ -77,7 +77,7 @@ pub fn generate_help(commands: &Vec<Command>) -> TokenStream {
     .into()
 }
 
-pub fn generate_command_help(doc_data: &Vec<(DocData, Box<Type>)>) -> proc_macro2::TokenStream {
+pub fn generate_command_help(doc_data: &[(DocData, Box<Type>)]) -> proc_macro2::TokenStream {
     let help = doc_data
         .iter()
         .map(|(DocData { docs, short, long }, typ)| {
