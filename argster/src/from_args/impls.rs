@@ -83,7 +83,7 @@ impl FromArgsItem for bool {
                 expected: "true|false".into(),
                 found: "flag ".into(),
             }),
-            None => Err(Error::NotFound("string".into())),
+            None => Ok(false),
         }
     }
 }
