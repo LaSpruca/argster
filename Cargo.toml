@@ -1,3 +1,10 @@
 [workspace]
 members = ["argster-macros", "argster", "example"]
 resolver = "2"
+package.authors = ["Connor Hare <contact@laspruca.nz>"]
+package.license = "MIT"
+package.repository = "https://github.com/LaSpruca/argster"
+package.readme = "README.md"
+package.keywords = ["cli", "argument", "parser", "macro"]
+package.version = "0.1.0"
+package.description = "A simple parser for command line arguments"
