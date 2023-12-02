@@ -1,3 +1,14 @@
+# Argster
+
+A simple command line parser
+
+---
+
+[![Argster example](https://asciinema.org/a/RWWvftRNrYWhJC8dFZV4f9lcI.svg)](https://asciinema.org/a/RWWvftRNrYWhJC8dFZV4f9lcI)
+
+# Example
+
+```rs
 use argster::command;
 
 struct App;
@@ -18,3 +29,14 @@ impl App {
 fn main() {
     App::main();
 }
+```
+
+# Command syntax
+
+```
+    -<c>
+    -<c><value>
+    -<c> <value>
+    --<name>
+    --<name> <value>
+```

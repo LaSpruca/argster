@@ -17,6 +17,16 @@ impl FromStr for DocData {
         let source = s.trim();
         let rest;
         let long;
+        if let Some(input) = source.strip_prefix("input") {
+            long = "input".to_string();
+            rest = input.trim();
+            return Ok(DocData {
+                long,
+                docs: rest.to_string(),
+                ..Default::default()
+            });
+        }
+
         if let Some(s) = source.strip_prefix("--") {
             if let Some((parsed_long, parsed_rest)) = s.split_once(" ") {
                 long = parsed_long.trim().to_string();

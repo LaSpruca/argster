@@ -38,7 +38,7 @@ impl Error {
 
 pub trait FromArgsItem {
     const TYPE_REF: &'static str;
-    const TYPE_EXTRA: &'static str;
+    const TYPE_EXTRA: &'static str = "required";
 
     fn from_args_item(item: Option<&ArgsItem>) -> Result<Self, Error>
     where
@@ -47,7 +47,6 @@ pub trait FromArgsItem {
 
 impl FromArgsItem for String {
     const TYPE_REF: &'static str = "<string>";
-    const TYPE_EXTRA: &'static str = "";
 
     fn from_args_item(item: Option<&ArgsItem>) -> Result<Self, Error> {
         match item {
@@ -73,8 +72,7 @@ impl FromArgsItem for String {
 }
 
 impl FromArgsItem for usize {
-    const TYPE_REF: &'static str = "<number>";
-    const TYPE_EXTRA: &'static str = "";
+    const TYPE_REF: &'static str = "<positve number>";
 
     fn from_args_item(item: Option<&ArgsItem>) -> Result<Self, Error> {
         match item {
@@ -115,5 +113,38 @@ where
         Self: Sized,
     {
         item.map(|x| T::from_args_item(Some(x))).transpose()
+    }
+}
+
+impl FromArgsItem for u32 {
+    const TYPE_REF: &'static str = "<positve number>";
+
+    fn from_args_item(item: Option<&ArgsItem>) -> Result<Self, Error>
+    where
+        Self: Sized,
+    {
+        match item {
+            Some(ArgsItem::String(s)) => s.parse().map_err(|ex| Error::InvalidType {
+                arg: "".into(),
+                expected: "u32".into(),
+                found: format!("string: {}", ex),
+            }),
+            Some(ArgsItem::Present) => Err(Error::InvalidType {
+                arg: "".into(),
+                expected: "u32".into(),
+                found: "flag".into(),
+            }),
+            Some(ArgsItem::Many(_)) => Err(Error::InvalidType {
+                arg: "".into(),
+                expected: "u32".into(),
+                found: "list".into(),
+            }),
+            Some(ArgsItem::PresentTimes(_)) => Err(Error::InvalidType {
+                arg: "".into(),
+                expected: "string".into(),
+                found: "flag ".into(),
+            }),
+            None => Err(Error::NotFound("".into())),
+        }
     }
 }
