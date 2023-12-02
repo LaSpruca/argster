@@ -1,6 +1,7 @@
+use crate::ArgsItem;
 use thiserror::Error;
 
-use crate::ArgsItem;
+mod impls;
 
 #[derive(Error, Debug)]
 pub enum Error {
@@ -37,114 +38,11 @@ impl Error {
 }
 
 pub trait FromArgsItem {
-    const TYPE_REF: &'static str;
+    const TYPE_DESC: &'static str;
     const TYPE_EXTRA: &'static str = "required";
+    const TYPE_NAME: &'static str;
 
     fn from_args_item(item: Option<&ArgsItem>) -> Result<Self, Error>
     where
         Self: Sized;
-}
-
-impl FromArgsItem for String {
-    const TYPE_REF: &'static str = "<string>";
-
-    fn from_args_item(item: Option<&ArgsItem>) -> Result<Self, Error> {
-        match item {
-            Some(ArgsItem::String(s)) => Ok(s.to_string()),
-            Some(ArgsItem::Present) => Err(Error::InvalidType {
-                arg: "string".into(),
-                expected: "string".into(),
-                found: "flag".into(),
-            }),
-            Some(ArgsItem::Many(_)) => Err(Error::InvalidType {
-                arg: "string".into(),
-                expected: "string".into(),
-                found: "list".into(),
-            }),
-            Some(ArgsItem::PresentTimes(_)) => Err(Error::InvalidType {
-                arg: "string".into(),
-                expected: "string".into(),
-                found: "flag ".into(),
-            }),
-            None => Err(Error::NotFound("string".into())),
-        }
-    }
-}
-
-impl FromArgsItem for usize {
-    const TYPE_REF: &'static str = "<positve number>";
-
-    fn from_args_item(item: Option<&ArgsItem>) -> Result<Self, Error> {
-        match item {
-            Some(ArgsItem::String(s)) => s.parse().map_err(|ex| Error::InvalidType {
-                arg: "".into(),
-                expected: "usize".into(),
-                found: format!("string: {}", ex),
-            }),
-            Some(ArgsItem::Present) => Err(Error::InvalidType {
-                arg: "".into(),
-                expected: "usize".into(),
-                found: "flag".into(),
-            }),
-            Some(ArgsItem::Many(_)) => Err(Error::InvalidType {
-                arg: "".into(),
-                expected: "usize".into(),
-                found: "list".into(),
-            }),
-            Some(ArgsItem::PresentTimes(_)) => Err(Error::InvalidType {
-                arg: "".into(),
-                expected: "string".into(),
-                found: "flag ".into(),
-            }),
-            None => Err(Error::NotFound("string".into())),
-        }
-    }
-}
-
-impl<T> FromArgsItem for Option<T>
-where
-    T: FromArgsItem,
-{
-    const TYPE_REF: &'static str = T::TYPE_REF;
-    const TYPE_EXTRA: &'static str = "optinal";
-
-    fn from_args_item(item: Option<&ArgsItem>) -> Result<Self, Error>
-    where
-        Self: Sized,
-    {
-        item.map(|x| T::from_args_item(Some(x))).transpose()
-    }
-}
-
-impl FromArgsItem for u32 {
-    const TYPE_REF: &'static str = "<positve number>";
-
-    fn from_args_item(item: Option<&ArgsItem>) -> Result<Self, Error>
-    where
-        Self: Sized,
-    {
-        match item {
-            Some(ArgsItem::String(s)) => s.parse().map_err(|ex| Error::InvalidType {
-                arg: "".into(),
-                expected: "u32".into(),
-                found: format!("string: {}", ex),
-            }),
-            Some(ArgsItem::Present) => Err(Error::InvalidType {
-                arg: "".into(),
-                expected: "u32".into(),
-                found: "flag".into(),
-            }),
-            Some(ArgsItem::Many(_)) => Err(Error::InvalidType {
-                arg: "".into(),
-                expected: "u32".into(),
-                found: "list".into(),
-            }),
-            Some(ArgsItem::PresentTimes(_)) => Err(Error::InvalidType {
-                arg: "".into(),
-                expected: "string".into(),
-                found: "flag ".into(),
-            }),
-            None => Err(Error::NotFound("".into())),
-        }
-    }
 }

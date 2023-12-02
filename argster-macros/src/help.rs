@@ -93,7 +93,8 @@ pub fn generate_command_help(doc_data: &[(DocData, Box<Type>)]) -> proc_macro2::
             quote!(Row::new(vec![
                 Cell::new(&#long.to_string()).style_spec("bFG"),
                 Cell::new(&#short.to_string()).style_spec("bFG"),
-                Cell::new(&<#typ as ::argster::from_args::FromArgsItem>::TYPE_REF.to_string()).style_spec("FD"),
+                Cell::new(&<#typ as ::argster::from_args::FromArgsItem>::TYPE_NAME.to_string()).style_spec("FD"),
+                Cell::new(&<#typ as ::argster::from_args::FromArgsItem>::TYPE_DESC.to_string()).style_spec("FD"),
                 Cell::new(&&<#typ as ::argster::from_args::FromArgsItem>::TYPE_EXTRA.to_string().to_string()).style_spec("FD"),
                 Cell::new(&#docs.to_string()),
             ]))

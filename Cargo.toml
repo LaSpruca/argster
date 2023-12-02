@@ -6,5 +6,5 @@ package.license = "MIT"
 package.repository = "https://github.com/LaSpruca/argster"
 package.readme = "README.md"
 package.keywords = ["cli", "argument", "parser", "macro"]
-package.version = "0.1.0"
+package.version = "0.1.1"
 package.description = "A simple parser for command line arguments"
