@@ -1,5 +1,7 @@
 # Argster
 
+[![Crates.io](https://img.shields.io/crates/v/argster)](https://crates.io/crates/argster)
+
 A simple command line parser to invoke functions with the required arguments
 
 ---
