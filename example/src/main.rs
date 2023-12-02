@@ -13,6 +13,13 @@ impl App {
             println!("Hello {input}");
         }
     }
+
+    /// Does the oppisite of hello
+    /// # Args
+    /// input The name to dismis
+    fn goodbye(input: String) {
+        println!("Goodbye {input}");
+    }
 }
 
 fn main() {

@@ -1,6 +1,6 @@
 # Argster
 
-A simple command line parser
+A simple command line parser to invoke functions with the required arguments
 
 ---
 
@@ -40,3 +40,5 @@ fn main() {
     --<name>
     --<name> <value>
 ```
+
+Inspired by: [This tsoding video](https://www.youtube.com/watch?v=LQ2rX5B0DUA)
